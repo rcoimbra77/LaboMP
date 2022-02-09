@@ -1,32 +1,26 @@
-# ------------------------------------------------------------------------
-# Laboratoires de programmation mathématique et physique 1
-# ------------------------------------------------------------------------
-#
-# Programme 4: Affichage de vecteurs.
-#
-# *** CONSIGNES ***: Ne modifier que les fonctions
-#                        deplacer_pol() et
-#                        dessiner_vecteur()  !!!
-#
-# ------------------------------------------------------------------------
 
 import math
 import pygame
 import sys
 
-### Constante(s)
+# Constantes
 
-JAUNEMIEL = (255, 192, 0)
-NOIR = (0, 0, 0)
-
+BLEUCLAIR = (127, 191, 255)
+NOIR      = (0,0,0)
+ROUGE     = (255,0,0)
 A = 2
 B = 5
 C = 20
+#k = 8 987 600 000
+k = 8.9876 * pow(10,9)
 
 
-### Fonctions
+# La norme de ce vecteur est égale à k|q|r2, où r est la distance qui sépare p et p′, 
+# Paramètres
 
-# *** A MODIFIER *********************************************************
+dimensions_fenetre = (1600, 900)  # en pixels
+images_par_seconde = 25
+objets = []
 
 def deplacer_pol(point, distance, orientation):
     x, y = point
@@ -36,15 +30,13 @@ def deplacer_pol(point, distance, orientation):
 
     return (x, y)
 
-# *** A MODIFIER *********************************************************
-
 def dessiner_vecteur(fenetre, couleur, origine, vecteur):
 
     p = origine
     p4 = p + vecteur
     angle = math.atan2(vecteur[1], vecteur[0])
 
-    if math.sqrt(vecteur[1]**2 + vecteur[0]**2) >= C:
+    if math.sqrt(vecteur[1]**2 + vecteur[0]**2) >= 20:
         p4 = (p[0] + vecteur[0], p[1] + vecteur[1])
         pp4 = math.sqrt(vecteur[1]**2 + vecteur[0]**2)
         p1 = deplacer_pol(p, A, angle - math.pi/2)
@@ -64,59 +56,87 @@ def dessiner_vecteur(fenetre, couleur, origine, vecteur):
 
         pygame.draw.polygon(fenetre, couleur, [p1, p2, p3, p4])
 
-# ************************************************************************
+def ajouter_objet(x,y,z):
+    objets.append((x,y,z))
 
-def traiter_clic(position, bouton):
-    global premier_clic, ancienne_position
+ajouter_objet(800,200,1000000)
+ajouter_objet(800,700,-1000000)
 
-    if bouton == 3:
-        premier_clic = True
-        fenetre.fill(couleur_fond)
-        return
+def print_objets():
+    for o in objets:
+        print(o)   
 
-    if bouton != 1:
-        return
 
-    if premier_clic:
-        premier_clic = False
-    else:
-        dessiner_vecteur(fenetre, NOIR, ancienne_position,
-                         (position[0] - ancienne_position[0],
-                          position[1] - ancienne_position[1]))
+def dessiner_objets():
+    for o in objets:
+        if (o[2]<0):
+            pygame.draw.circle(fenetre, NOIR , (o[0], o[1]), 10)
+        else:
+            pygame.draw.circle(fenetre, ROUGE, (o[0], o[1]), 10)
 
-    ancienne_position = position
-    return
+def dessiner_champ(pas):
+    print("ton travail commence ici")
+    x = -pas
+    while(x < dimensions_fenetre[0] + pas):
+        y = -pas
+        while(y < dimensions_fenetre[1] + pas):
+            vecteur = calculer_champ(x,y)
+            vecteur = normer_vecteur(40, vecteur)
+            dessiner_vecteur(fenetre, ROUGE, (x,y), (vecteur[0], vecteur[1]))
+            print(vecteur[0])
+            print(vecteur[1])
+            print(" ")
+            y += pas
+        x += pas
 
-### Paramètre(s)
+def normer_vecteur(tailleMax, v):
+    norme   = math.sqrt(v[0]*v[0] + v[1]*v[1])
+    vecteur = [0,0]
+    if (norme !=0):
+        vecteur = [ v[0]*tailleMax/norme, v[1]*tailleMax/norme ]
+    return vecteur
 
-dimensions_fenetre = (800, 600)  # en pixels
-images_par_seconde = 25
 
-### Programme
+def calculer_champ(x,y):
+    norme = 0
+    v = [0,0]
+    for o in objets:
+        r     = math.sqrt( (o[0]-x) * (o[0]-x) + (o[1]-y) * (o[1]-y) )
+        if(r > 20):
+            norme = k * abs(o[2]) / (r*r)
+        angle = math.atan2( (o[0]-x), (o[1]-y) )
+        vtemp = (norme * math.cos(angle) , norme * math.sin(angle))
+        v[0] += vtemp[0]
+        v[1] += vtemp[1]    
+    return v    
 
+
+
+print(k)
+
+#print_objets()
 # Initialisation
 
 pygame.init()
 
 fenetre = pygame.display.set_mode(dimensions_fenetre)
-pygame.display.set_caption("Programme 4");
+pygame.display.set_caption("Programme 1")
+
 
 horloge = pygame.time.Clock()
-couleur_fond = JAUNEMIEL
+couleur_fond = BLEUCLAIR
 
-premier_clic = True
+# Dessin
 
 fenetre.fill(couleur_fond)
-
-# Boucle principale
 
 while True:
     for evenement in pygame.event.get():
         if evenement.type == pygame.QUIT:
             pygame.quit()
-            sys.exit();
-        elif evenement.type == pygame.MOUSEBUTTONDOWN:
-            traiter_clic(evenement.pos, evenement.button)
-
+            sys.exit()
+    
+    dessiner_objets()
+    dessiner_champ(50)
     pygame.display.flip()
     horloge.tick(images_par_seconde)
