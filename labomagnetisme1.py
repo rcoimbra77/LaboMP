@@ -8,7 +8,7 @@ import sys
 BLEUCLAIR = (127, 191, 255)
 NOIR      = (0,0,0)
 ROUGE     = (255,0,0)
-k = 8 987 600 000
+#k = 8 987 600 000
 
 # La norme de ce vecteur est égale à k|q|r2, où r est la distance qui sépare p et p′, 
 # Paramètres
@@ -37,6 +37,18 @@ def dessiner_objets():
 
 def dessiner_champ(pas):
     print("ton travail commence ici")
+    x = -pas
+    while(x < dimensions_fenetre[0] + pas):
+        y = -pas
+        while(y < dimensions_fenetre[1] + pas):
+            print(x)
+            print(y)
+            print(" ")
+            y += pas
+        x += pas
+
+dessiner_champ(50)
+
 
 print_objets()
 # Initialisation
