@@ -15,6 +15,7 @@ C = 20
 k = 8.9876 * pow(10,9)
 
 
+
 # La norme de ce vecteur est égale à k|q|r2, où r est la distance qui sépare p et p′, 
 # Paramètres
 
@@ -81,11 +82,13 @@ def dessiner_champ(pas):
         y = -pas
         while(y < dimensions_fenetre[1] + pas):
             vecteur = calculer_champ(x,y)
-            vecteur = normer_vecteur(40, vecteur)
-            dessiner_vecteur(fenetre, ROUGE, (x,y), (vecteur[0], vecteur[1]))
-            print(vecteur[0])
-            print(vecteur[1])
-            print(" ")
+            if (vecteur != None):
+                vecteur = normer_vecteur(40, vecteur)
+                dessiner_vecteur(fenetre, ROUGE, (x ,y ), (vecteur[0], vecteur[1]))
+                print(vecteur[0])
+                print(vecteur[1])
+                print(" ")
+
             y += pas
         x += pas
 
@@ -101,13 +104,22 @@ def calculer_champ(x,y):
     norme = 0
     v = [0,0]
     for o in objets:
-        r     = math.sqrt( (o[0]-x) * (o[0]-x) + (o[1]-y) * (o[1]-y) )
+        r     = math.sqrt( (x-o[0]) * (x-o[0]) + (y-o[1]) * (y-o[1]) )
         if(r > 20):
             norme = k * abs(o[2]) / (r*r)
-        angle = math.atan2( (o[0]-x), (o[1]-y) )
-        vtemp = (norme * math.cos(angle) , norme * math.sin(angle))
+        else: 
+            return None
+        angle = math.atan2( (y-o[1]), (x-o[0]) )
+        
+        if (o[2]<0):
+            vtemp = (-norme * math.cos(angle) , -norme * math.sin(angle))
+        else:
+            vtemp = (norme * math.cos(angle) , norme * math.sin(angle))
+
+
         v[0] += vtemp[0]
-        v[1] += vtemp[1]    
+        v[1] += vtemp[1] 
+   
     return v    
 
 
@@ -135,8 +147,11 @@ while True:
         if evenement.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    
+
+    fenetre.fill(couleur_fond)
     dessiner_objets()
     dessiner_champ(50)
+
+
     pygame.display.flip()
     horloge.tick(images_par_seconde)
