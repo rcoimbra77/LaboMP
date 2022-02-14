@@ -46,7 +46,7 @@ def dessiner_vecteur(fenetre, couleur, origine, vecteur):
         p6 = deplacer_pol(p7, pp4 - C, angle)
         p3 = deplacer_pol(p2, B, angle - math.pi/2)
         p5 = deplacer_pol(p6, B, angle + math.pi/2)
-        print(couleur)
+        #print(couleur)
         pygame.draw.polygon(fenetre, couleur, [p1, p2, p3, p4, p5, p6, p7])
 
     else:
@@ -87,15 +87,15 @@ def dessiner_champ(pas):
             if (vecteur != None):
 
                 e = math.sqrt(vecteur[0]*vecteur[0] + vecteur[1]*vecteur[1])
-                print(" ")
-                print("norme de e:")
-                print(e)
+                #print(" ")
+                #print("norme de e:")
+                #print(e)
 
                 v = math.sqrt(e)/20000 #NON
-                print(" ")
-                print("v:")
-                print(v)
-                print(" ")
+                #print(" ")
+                #print("v:")
+                #print(v)
+                #print(" ")
 
                 if(v >=0 and v<8):
                     couleur = (255,255*v/8,0)
@@ -156,8 +156,10 @@ pygame.init()
 
 fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 1")
+
 ajouter_objet(800,200,pow(10,6))
 ajouter_objet(800,700,-pow(10,6))
+
 
 
 horloge = pygame.time.Clock()
@@ -172,6 +174,12 @@ while True:
         if evenement.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        elif evenement.type == pygame.MOUSEBUTTONDOWN:
+            if (evenement.button == 1):
+                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],pow(10,7))
+            elif (evenement.button == 3):
+                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],-pow(10,7))
+
 
     fenetre.fill(couleur_fond)
     dessiner_objets()
