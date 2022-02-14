@@ -57,6 +57,14 @@ def dessiner_vecteur(fenetre, couleur, origine, vecteur):
 
         pygame.draw.polygon(fenetre, couleur, [p1, p2, p3, p4])
 
+def dessiner_vecteur_centre(fenetre, couleur, origine, vecteur):
+    print("position")
+    x = (origine[0] + origine[0]-vecteur[0]) //2
+    print(x)
+    y = (origine[1] + origine[1]-vecteur[1]) //2
+    print(y)
+    dessiner_vecteur(fenetre, couleur, (x,y), vecteur)   
+
 def ajouter_objet(x,y,z):
     objets.append((x,y,z))
 
@@ -76,7 +84,6 @@ def dessiner_objets():
             pygame.draw.circle(fenetre, ROUGE, (o[0], o[1]), 10)
 
 def dessiner_champ(pas):
-    print("ton travail commence ici")
     x = -pas
     while(x < dimensions_fenetre[0] + pas):
         y = -pas
@@ -84,10 +91,7 @@ def dessiner_champ(pas):
             vecteur = calculer_champ(x,y)
             if (vecteur != None):
                 vecteur = normer_vecteur(40, vecteur)
-                dessiner_vecteur(fenetre, ROUGE, (x ,y ), (vecteur[0], vecteur[1]))
-                print(vecteur[0])
-                print(vecteur[1])
-                print(" ")
+                dessiner_vecteur_centre(fenetre, ROUGE, (x,y), (vecteur[0], vecteur[1]))
 
             y += pas
         x += pas
@@ -122,9 +126,6 @@ def calculer_champ(x,y):
    
     return v    
 
-
-
-print(k)
 
 #print_objets()
 # Initialisation
