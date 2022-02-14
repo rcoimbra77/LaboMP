@@ -46,7 +46,7 @@ def dessiner_vecteur(fenetre, couleur, origine, vecteur):
         p6 = deplacer_pol(p7, pp4 - C, angle)
         p3 = deplacer_pol(p2, B, angle - math.pi/2)
         p5 = deplacer_pol(p6, B, angle + math.pi/2)
-
+        print(couleur)
         pygame.draw.polygon(fenetre, couleur, [p1, p2, p3, p4, p5, p6, p7])
 
     else:
@@ -58,18 +58,15 @@ def dessiner_vecteur(fenetre, couleur, origine, vecteur):
         pygame.draw.polygon(fenetre, couleur, [p1, p2, p3, p4])
 
 def dessiner_vecteur_centre(fenetre, couleur, origine, vecteur):
-    print("position")
     x = (origine[0] + origine[0]-vecteur[0]) //2
-    print(x)
     y = (origine[1] + origine[1]-vecteur[1]) //2
-    print(y)
     dessiner_vecteur(fenetre, couleur, (x,y), vecteur)   
 
 def ajouter_objet(x,y,z):
     objets.append((x,y,z))
 
-ajouter_objet(800,200,1000000)
-ajouter_objet(800,700,-1000000)
+ajouter_objet(800,200,pow(10,6))
+ajouter_objet(800,700,-pow(10,6))
 
 def print_objets():
     for o in objets:
@@ -89,9 +86,38 @@ def dessiner_champ(pas):
         y = -pas
         while(y < dimensions_fenetre[1] + pas):
             vecteur = calculer_champ(x,y)
+
             if (vecteur != None):
+
+                e = math.sqrt(vecteur[0]*vecteur[0] + vecteur[1]*vecteur[1])
+                print(" ")
+                print("norme de e:")
+                print(e)
+
+                v = math.sqrt(e)/30000
+                print(" ")
+                print("v:")
+                print(v)
+                print(" ")
+
+                if(v >=0 and v<8):
+                    couleur = (255,255*v/8,0)
+                elif(v >8 and v<=16):
+                    couleur = (255-(v-8)/8,255,255*(v-8)/8) 
+                elif(v >16 and v<=24):
+                    couleur = (0,255-(v-16)/8,255)
+                elif(v >24 and v<=32):
+                    couleur = (255*(v-24)/8,0,255)
+                elif(v >32):
+                    couleur =  (255, 0, 255)
+                else:
+                    couleur = (0,0,0)
+
                 vecteur = normer_vecteur(40, vecteur)
-                dessiner_vecteur_centre(fenetre, ROUGE, (x,y), (vecteur[0], vecteur[1]))
+
+
+                v = math.sqrt(1000*e)
+                dessiner_vecteur_centre(fenetre, couleur, (x,y), (vecteur[0], vecteur[1]))
 
             y += pas
         x += pas
