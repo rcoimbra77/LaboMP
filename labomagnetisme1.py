@@ -65,9 +65,6 @@ def dessiner_vecteur_centre(fenetre, couleur, origine, vecteur):
 def ajouter_objet(x,y,z):
     objets.append((x,y,z))
 
-ajouter_objet(800,200,pow(10,6))
-ajouter_objet(800,700,-pow(10,6))
-
 def print_objets():
     for o in objets:
         print(o)   
@@ -94,7 +91,7 @@ def dessiner_champ(pas):
                 print("norme de e:")
                 print(e)
 
-                v = math.sqrt(e)/30000
+                v = math.sqrt(e)/20000 #NON
                 print(" ")
                 print("v:")
                 print(v)
@@ -115,8 +112,6 @@ def dessiner_champ(pas):
 
                 vecteur = normer_vecteur(40, vecteur)
 
-
-                v = math.sqrt(1000*e)
                 dessiner_vecteur_centre(fenetre, couleur, (x,y), (vecteur[0], vecteur[1]))
 
             y += pas
@@ -133,6 +128,7 @@ def normer_vecteur(tailleMax, v):
 def calculer_champ(x,y):
     norme = 0
     v = [0,0]
+
     for o in objets:
         r     = math.sqrt( (x-o[0]) * (x-o[0]) + (y-o[1]) * (y-o[1]) )
         if(r > 20):
@@ -160,6 +156,8 @@ pygame.init()
 
 fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 1")
+ajouter_objet(800,200,pow(10,6))
+ajouter_objet(800,700,-pow(10,6))
 
 
 horloge = pygame.time.Clock()
