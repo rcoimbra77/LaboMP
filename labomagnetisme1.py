@@ -96,12 +96,12 @@ def dessiner_champ(pas):
                 print(v)
                 print(" ")
 
-                if(v >=0 and v<8):
+                if(v >=0 and v<=8):
                     couleur = (255,255*v/8,0)
                 elif(v >8 and v<=16):
-                    couleur = (255-(v-8)/8,255,255*(v-8)/8)
+                    couleur = (255-(v-8)/16*255,255,(v-8)*255/8)
                 elif(v >16 and v<=24):
-                    couleur = (0,255-(v-16)/8,255)
+                    couleur = (0,255-(v-16)*255/8,255)
                 elif(v >24 and v<=32):
                     couleur = (255*(v-24)/8,0,255)
                 elif(v >32):
