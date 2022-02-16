@@ -13,11 +13,10 @@ EXPERIENCE5 = 5
 EXPERIENCE6 = 6
 EXPERIENCE7 = 7
 EXPERIENCE8 = 8
-EXPERIENCE9 = 9
 
 RAYON = 10
 
-mode     = EXPERIENCE6 # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité.
+mode     = EXPERIENCE2 # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité. 
 mobilite = 0
 
 
@@ -243,10 +242,35 @@ elif (mode == EXPERIENCE6):
 
 
 elif (mode == EXPERIENCE7):
-    ajouter_objet(550,200,-pow(10,-6),  5, 0)
-    ajouter_objet(1050,700,-pow(10,-6),  -5, 0)
-    ajouter_objet(1050,200,pow(10,-6),  -5, 0)
-    ajouter_objet(550,700,pow(10,-6), 5, 0)
+    ajouter_objet(0,400 , pow(10,-6), 6, 0)
+    ajouter_objet(50,400,-pow(10,-6), 6, 0)
+    ajouter_objet(0,500 ,-pow(10,-6), 6, 0)
+    ajouter_objet(50,500, pow(10,-6), 6, 0)
+
+    ajouter_objet(1600 ,400 , pow(10,-6), -6, 0)
+    ajouter_objet(1550 ,400 ,-pow(10,-6), -6, 0)
+    ajouter_objet(1600 ,500 ,-pow(10,-6), -6, 0)
+    ajouter_objet(1550 ,500 , pow(10,-6), -6, 0)
+
+elif (mode == EXPERIENCE8):
+    ajouter_objet(0,400 , pow(10,-6), 6, 0)
+    ajouter_objet(50,400,-pow(10,-6), 6, 0)
+    ajouter_objet(0,500 ,-pow(10,-6), 6, 0)
+    ajouter_objet(50,500, pow(10,-6), 6, 0)
+    ajouter_objet(0,450 ,-pow(10,-6), 6, 0)
+    ajouter_objet(50,450, pow(10,-6), 6, 0)
+
+    ajouter_objet(1600 ,400 , pow(10,-6), -6, 0)
+    ajouter_objet(1550 ,400 ,-pow(10,-6), -6, 0)
+    ajouter_objet(1600 ,500 ,-pow(10,-6), -6, 0)
+    ajouter_objet(1550 ,500 , pow(10,-6), -6, 0)
+    ajouter_objet(1600 ,450 , pow(10,-6), -6, 0)
+    ajouter_objet(1550 ,450 ,-pow(10,-6), -6, 0)
+
+    ajouter_objet(800 ,0   , pow(10,-6) , 0 , 5)
+    ajouter_objet(800 ,100 , -pow(10,-6) , 0 , 5)
+    ajouter_objet(800 ,900 ,pow(10,-6) , 0 , -5)
+    ajouter_objet(800 ,800 ,-pow(10,-6) , 0 , -5)
 
 
 horloge = pygame.time.Clock()
