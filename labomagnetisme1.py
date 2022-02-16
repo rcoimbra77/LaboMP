@@ -1,4 +1,3 @@
-
 import math
 import pygame
 import sys
@@ -16,7 +15,7 @@ k = 8.9876 * pow(10,9)
 
 
 
-# La norme de ce vecteur est égale à k|q|r2, où r est la distance qui sépare p et p′, 
+# La norme de ce vecteur est égale à k|q|r2, où r est la distance qui sépare p et p′,
 # Paramètres
 
 dimensions_fenetre = (1600, 900)  # en pixels
@@ -60,14 +59,14 @@ def dessiner_vecteur(fenetre, couleur, origine, vecteur):
 def dessiner_vecteur_centre(fenetre, couleur, origine, vecteur):
     x = (origine[0] + origine[0]-vecteur[0]) //2
     y = (origine[1] + origine[1]-vecteur[1]) //2
-    dessiner_vecteur(fenetre, couleur, (x,y), vecteur)   
+    dessiner_vecteur(fenetre, couleur, (x,y), vecteur)
 
 def ajouter_objet(x,y,z):
     objets.append((x,y,z))
 
 def print_objets():
     for o in objets:
-        print(o)   
+        print(o)
 
 
 def dessiner_objets():
@@ -91,16 +90,16 @@ def dessiner_champ(pas):
                 #print("norme de e:")
                 #print(e)
 
-                v = math.sqrt(e)/20000 #NON
-                #print(" ")
-                #print("v:")
-                #print(v)
-                #print(" ")
+                v = math.sqrt(1000 * e) #NON
+                print(" ")
+                print("v:")
+                print(v)
+                print(" ")
 
                 if(v >=0 and v<8):
                     couleur = (255,255*v/8,0)
                 elif(v >8 and v<=16):
-                    couleur = (255-(v-8)/8,255,255*(v-8)/8) 
+                    couleur = (255-(v-8)/8,255,255*(v-8)/8)
                 elif(v >16 and v<=24):
                     couleur = (0,255-(v-16)/8,255)
                 elif(v >24 and v<=32):
@@ -133,10 +132,10 @@ def calculer_champ(x,y):
         r     = math.sqrt( (x-o[0]) * (x-o[0]) + (y-o[1]) * (y-o[1]) )
         if(r > 20):
             norme = k * abs(o[2]) / (r*r)
-        else: 
+        else:
             return None
         angle = math.atan2( (y-o[1]), (x-o[0]) )
-        
+
         if (o[2]<0):
             vtemp = (-norme * math.cos(angle) , -norme * math.sin(angle))
         else:
@@ -144,9 +143,9 @@ def calculer_champ(x,y):
 
 
         v[0] += vtemp[0]
-        v[1] += vtemp[1] 
-   
-    return v    
+        v[1] += vtemp[1]
+
+    return v
 
 
 #print_objets()
@@ -157,8 +156,8 @@ pygame.init()
 fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 1")
 
-ajouter_objet(800,200,pow(10,6))
-ajouter_objet(800,700,-pow(10,6))
+ajouter_objet(800,200,pow(10,-6))
+ajouter_objet(800,700,-pow(10,-6))
 
 
 
