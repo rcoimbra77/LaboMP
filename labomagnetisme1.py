@@ -16,7 +16,7 @@ EXPERIENCE8 = 8
 
 RAYON = 10
 
-mode     = EXPERIENCE2 # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité. 
+mode     = EXPERIENCE2 # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité (et le visuel). 
 mobilite = 0
 
 
