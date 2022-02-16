@@ -1,6 +1,25 @@
 import math
 import pygame
 import sys
+import random
+
+
+DEFAUT      = 0
+EXPERIENCE1 = 1
+EXPERIENCE2 = 2
+EXPERIENCE3 = 3
+EXPERIENCE4 = 4
+EXPERIENCE5 = 5
+EXPERIENCE6 = 6
+EXPERIENCE7 = 7
+EXPERIENCE8 = 8
+EXPERIENCE9 = 9
+
+RAYON = 10
+
+mode     = EXPERIENCE6 # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité.
+mobilite = 0
+
 
 # Constantes
 
@@ -17,9 +36,10 @@ k = 8.9876 * pow(10,9)
 
 # La norme de ce vecteur est égale à k|q|r2, où r est la distance qui sépare p et p′,
 # Paramètres
-
-dimensions_fenetre = (1600, 900)  # en pixels
-images_par_seconde = 25
+LARGEUR = 1600
+HAUTEUR = 900
+dimensions_fenetre = (LARGEUR, HAUTEUR)  # en pixels
+images_par_seconde = 50
 objets = []
 
 def deplacer_pol(point, distance, orientation):
@@ -61,8 +81,8 @@ def dessiner_vecteur_centre(fenetre, couleur, origine, vecteur):
     y = (origine[1] + origine[1]-vecteur[1]) //2
     dessiner_vecteur(fenetre, couleur, (x,y), vecteur)
 
-def ajouter_objet(x,y,z):
-    objets.append((x,y,z))
+def ajouter_objet(x,y,z, vx, vy):
+    objets.append([x,y,z, vx, vy])
 
 def print_objets():
     for o in objets:
@@ -72,9 +92,26 @@ def print_objets():
 def dessiner_objets():
     for o in objets:
         if (o[2]<0):
-            pygame.draw.circle(fenetre, NOIR , (o[0], o[1]), 10)
+            pygame.draw.circle(fenetre, NOIR , (o[0], o[1]), RAYON)
         else:
-            pygame.draw.circle(fenetre, ROUGE, (o[0], o[1]), 10)
+            pygame.draw.circle(fenetre, ROUGE, (o[0], o[1]), RAYON)
+
+def bouger_objets():
+    for o in objets:
+        o[0] += o[3]
+        o[1] += o[4]
+
+        if (o[0] < 0):
+            o[0] = LARGEUR
+        if (o[0] > LARGEUR):
+            o[0] = 0
+
+        if (o[1] < 0):
+            o[1] = HAUTEUR
+        if (o[1] > HAUTEUR):
+            o[1] = 0
+
+        #print(o)
 
 def dessiner_champ(pas):
     x = -pas
@@ -91,15 +128,15 @@ def dessiner_champ(pas):
                 #print(e)
 
                 v = math.sqrt(1000 * e) #NON
-                print(" ")
-                print("v:")
-                print(v)
-                print(" ")
+                #print(" ")
+                #print("v:")
+                #print(v)
+                #print(" ")
 
                 if(v >=0 and v<=8):
                     couleur = (255,255*v/8,0)
                 elif(v >8 and v<=16):
-                    couleur = (255-(v-8)/16*255,255,(v-8)*255/8)
+                    couleur = (255-(v-8)/8*255,255,(v-8)*255/8)
                 elif(v >16 and v<=24):
                     couleur = (0,255-(v-16)*255/8,255)
                 elif(v >24 and v<=32):
@@ -156,9 +193,60 @@ pygame.init()
 fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 1")
 
-ajouter_objet(800,200,pow(10,-6))
-ajouter_objet(800,700,-pow(10,-6))
+if (mode == DEFAUT):
+    ajouter_objet(800,200,pow(10,-6), 0, 0)
+    ajouter_objet(800,700,-pow(10,-6), 0, 0)
 
+elif (mode == EXPERIENCE1):
+    ajouter_objet(550,200,-pow(10,-6) ,  0, 0)
+    ajouter_objet(1050,700,-pow(10,-6),  0, 0)
+    ajouter_objet(1050,200,pow(10,-6) ,  0, 0)
+    ajouter_objet(550,700,pow(10,-6)  ,  0, 0)
+
+elif (mode == EXPERIENCE2):
+
+    for x in range(20): 
+        ajouter_objet(600+x*RAYON*2,300,pow(10,-7), 0, 0)
+        ajouter_objet(600+x*RAYON*2,600,-pow(10,-7), 0, 0)
+
+
+elif (mode == EXPERIENCE3):
+
+    for x in range(20): 
+        ajouter_objet(600+x*RAYON*2,300, pow(10,-7), 0, 8)
+        ajouter_objet(600+x*RAYON*2,600,-pow(10,-7), 0, -8)
+
+elif (mode == EXPERIENCE4):
+
+    ajouter_objet(1300,200,-pow(10,-6),  -5, 0)
+    ajouter_objet(300 ,700,-pow(10,-6),  5, 0)
+    ajouter_objet(300 ,200,pow(10,-6) ,  5, 0)
+    ajouter_objet(1300,700,pow(10,-6) ,  -5, 0)
+
+elif (mode == EXPERIENCE5):
+    
+    ajouter_objet(550 ,200,-pow(10,-6),  5, 5)
+    ajouter_objet(650 ,300,-pow(10,-6),  5, 5)
+    ajouter_objet(1050,700,-pow(10,-6), -5, -5)
+    ajouter_objet(950 ,600,-pow(10,-6), -5, -5)
+
+    ajouter_objet(1050,200,pow(10,-6),  -5, 5)
+    ajouter_objet(550 ,700,pow(10,-6),   5, -5)
+    ajouter_objet(950 ,300,pow(10,-6),  -5, 5)
+    ajouter_objet(650 ,600,pow(10,-6),   5, -5)
+
+elif (mode == EXPERIENCE6):
+
+    for x in range (random.randint(5,10)):
+        ajouter_objet(random.randint(0, LARGEUR), random.randint(0, HAUTEUR), pow(10,-6) , random.randint(-10,10), random.randint(-10,10))
+        ajouter_objet(random.randint(0, LARGEUR), random.randint(0, HAUTEUR), -pow(10,-6), random.randint(-10,10), random.randint(-10,10)) 
+
+
+elif (mode == EXPERIENCE7):
+    ajouter_objet(550,200,-pow(10,-6),  5, 0)
+    ajouter_objet(1050,700,-pow(10,-6),  -5, 0)
+    ajouter_objet(1050,200,pow(10,-6),  -5, 0)
+    ajouter_objet(550,700,pow(10,-6), 5, 0)
 
 
 horloge = pygame.time.Clock()
@@ -175,12 +263,12 @@ while True:
             sys.exit()
         elif evenement.type == pygame.MOUSEBUTTONDOWN:
             if (evenement.button == 1):
-                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],pow(10,7))
+                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],pow(10,7),  0,0)
             elif (evenement.button == 3):
-                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],-pow(10,7))
-
+                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],-pow(10,7), 0,0)
 
     fenetre.fill(couleur_fond)
+    bouger_objets()
     dessiner_objets()
     dessiner_champ(50)
 
