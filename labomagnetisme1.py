@@ -122,15 +122,8 @@ def dessiner_champ(pas):
             if (vecteur != None):
 
                 e = math.sqrt(vecteur[0]*vecteur[0] + vecteur[1]*vecteur[1])
-                #print(" ")
-                #print("norme de e:")
-                #print(e)
 
-                v = math.sqrt(1000 * e) #NON
-                #print(" ")
-                #print("v:")
-                #print(v) 
-                #print(" ")
+                v = math.sqrt(1000 * e) 
 
                 if(v >=0 and v<=8):
                     couleur = (255,255*v/8,0)
@@ -146,8 +139,8 @@ def dessiner_champ(pas):
                     couleur = (0,0,0)
 
                 vecteur = normer_vecteur(40, vecteur)
-
-                dessiner_vecteur_centre(fenetre, couleur, (x,y), (vecteur[0], vecteur[1]))
+                if( math.sqrt(vecteur[0]*vecteur[0] + vecteur[1]*vecteur[1]) > 5 ):
+                    dessiner_vecteur_centre(fenetre, couleur, (x,y), (vecteur[0], vecteur[1]))
 
             y += pas
         x += pas
