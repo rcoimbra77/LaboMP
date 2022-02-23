@@ -3,7 +3,7 @@ import pygame
 import sys
 import random
 
-
+CLIC = 100
 DEFAUT      = 0
 EXPERIENCE1 = 1
 EXPERIENCE2 = 2
@@ -16,7 +16,7 @@ EXPERIENCE8 = 8
 
 RAYON = 10
 
-mode     = EXPERIENCE2 # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité (et le visuel). 
+mode     = CLIC # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité. 
 mobilite = 0
 
 
@@ -129,7 +129,7 @@ def dessiner_champ(pas):
                 v = math.sqrt(1000 * e) #NON
                 #print(" ")
                 #print("v:")
-                #print(v)
+                #print(v) 
                 #print(" ")
 
                 if(v >=0 and v<=8):
@@ -268,10 +268,21 @@ elif (mode == EXPERIENCE8):
     ajouter_objet(1550 ,450 ,-pow(10,-6), -6, 0)
 
     ajouter_objet(800 ,0   , pow(10,-6) , 0 , 5)
-    ajouter_objet(800 ,100 , -pow(10,-6) , 0 , 5)
-    ajouter_objet(800 ,900 ,pow(10,-6) , 0 , -5)
+    ajouter_objet(800 ,100 , -pow(10,-6), 0 , 5)
+    ajouter_objet(800 ,900 , pow(10,-6) , 0 , -5)
     ajouter_objet(800 ,800 ,-pow(10,-6) , 0 , -5)
 
+def retirer_objet(x, y):
+    print("hello")
+    
+    print(objets)
+    if (len(objets)> 0 ):
+        for o in objets:
+            distance = math.sqrt( (o[0]-x)*(o[0]-x) + (o[1]-y)*(o[1]-y)   )
+            print(distance)
+
+            if (distance<2*RAYON):
+                objets.remove(o)
 
 horloge = pygame.time.Clock()
 couleur_fond = BLEUCLAIR
@@ -287,9 +298,11 @@ while True:
             sys.exit()
         elif evenement.type == pygame.MOUSEBUTTONDOWN:
             if (evenement.button == 1):
-                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],pow(10,7),  0,0)
+                retirer_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
+                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],pow(10,-7),  0,0)
             elif (evenement.button == 3):
-                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],-pow(10,7), 0,0)
+                retirer_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
+                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],-pow(10,-7), 0,0)
 
     fenetre.fill(couleur_fond)
     bouger_objets()
