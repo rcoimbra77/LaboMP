@@ -273,16 +273,15 @@ elif (mode == EXPERIENCE8):
     ajouter_objet(800 ,800 ,-pow(10,-6) , 0 , -5)
 
 def retirer_objet(x, y):
-    print("hello")
-    
-    print(objets)
     if (len(objets)> 0 ):
         for o in objets:
             distance = math.sqrt( (o[0]-x)*(o[0]-x) + (o[1]-y)*(o[1]-y)   )
             print(distance)
 
-            if (distance<2*RAYON):
+            if (distance<RAYON):
                 objets.remove(o)
+                return 1
+    return 0
 
 horloge = pygame.time.Clock()
 couleur_fond = BLEUCLAIR
@@ -297,12 +296,15 @@ while True:
             pygame.quit()
             sys.exit()
         elif evenement.type == pygame.MOUSEBUTTONDOWN:
+
+            
             if (evenement.button == 1):
-                retirer_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
-                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],pow(10,-7),  0,0)
+                if (not retirer_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])):
+                    ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],pow(10,-7),  0,0)
             elif (evenement.button == 3):
-                retirer_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
-                ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],-pow(10,-7), 0,0)
+                if (not retirer_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])):
+                    retirer_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1])
+                    ajouter_objet(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1],-pow(10,-7), 0,0)
 
     fenetre.fill(couleur_fond)
     bouger_objets()
