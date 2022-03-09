@@ -2,18 +2,24 @@ import math
 import pygame
 import sys
 import random
+pygame.init()
+
 
 CLIC = 100
 RAYON = 10
 
-mode     = CLIC # Choisir l'expérience. DEFAULT, EXPERIENCE1, EXPERIENCE2 pour le cours, le reste pour la curiosité. 
+mobile_est_present         = False
+mobile_x                   = 400 
+mobile_y                   = 400
+mobile_vx                  = 0 
+mobile_vy                  = 0
+mobile_charge              = 0
+mobile_masse               = pow(10,-10)
+mobile_energie_cinetique   = 0
+mobile_energie_potentielle = 0
 
-mobile_est_present = False
-mobile_x           = 400 
-mobile_y           = 400
-mobile_vx          = 0 
-mobile_vy          = 0
-mobile_charge      = 0
+temps_maintenant = pygame.time.get_ticks()
+
 
 
 
@@ -37,6 +43,36 @@ HAUTEUR = 900
 dimensions_fenetre = (LARGEUR, HAUTEUR) # en pixels
 images_par_seconde = 50                 
 objets = []
+
+def mettre_a_jour_energie_cinetique():
+    normeVitesse = math.sqrt(mobile_vx * mobile_vx + mobile_vy * mobile_vy)
+    
+
+
+def mettre_a_jour_mobile(t):
+    global mobile_x, mobile_y, mobile_vx, mobile_vy
+    champElectrique     = calculer_champ(mobile_x,mobile_y)
+    
+    if(champElectrique):
+
+        Fx = champElectrique[0] * mobile_charge
+        Fy = champElectrique[1] * mobile_charge
+
+        acceleration        = [ Fx/mobile_masse, Fy/mobile_masse ]
+
+        mobile_vx           +=  acceleration[0] * t
+        mobile_vy           +=  acceleration[1] * t
+        mobile_x            +=  mobile_vx * t
+        mobile_y            +=  mobile_vy * t
+    else:
+        mobile_est_present   = False
+        #mobile_x            +=  mobile_vx * t
+        #mobile_y            +=  mobile_vy * t
+
+    
+
+    
+
 
 def dessiner_mobile():
     if (mobile_est_present):
@@ -113,10 +149,9 @@ def calculer_champ(x,y):
     return v
 
 
-#print_objets()
+# print_objets()
 # Initialisation
 
-pygame.init()
 
 fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 1")
@@ -177,10 +212,12 @@ while True:
                 mobile_charge = -pow(10,-7)
                 mobile_x = x_souris
                 mobile_y = y_souris
-                
 
 
-
+    delta_time = temps_maintenant - pygame.time.get_ticks()
+    t_seconde  = delta_time / 1000
+    mettre_a_jour_mobile(t_seconde)
+    temps_maintenant = pygame.time.get_ticks()
 
     fenetre.fill(couleur_fond)
     dessiner_mobile()
