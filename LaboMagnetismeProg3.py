@@ -25,6 +25,7 @@ temps_maintenant = pygame.time.get_ticks()
 
 # Constantes
 
+BLEU = (0,0,255)
 BLEUCLAIR = (127, 191, 255)
 NOIR      = (0,0,0)
 ROUGE     = (255,0,0)
@@ -148,6 +149,24 @@ def calculer_champ(x,y):
 
     return v
 
+# texte pour le tableau_de_bord
+def tableau_de_bord(energie_cinetique, energie_potentielle, potentiel_souris):
+    global energie_cinetique, energie_potentielle, potentiel_souris
+    texte_1 = "Energie cinetique : ".format(energie_cinetique)
+    image_1 = police.render(texte_1, True, BLEU)
+    fenetre.blit(image_1, (dimensions_fenetre[0]//20, dimensions_fenetre[1]//20))
+
+    texte_2 = "Energie potentielle : ".format(energie_potentielle)
+    image_2 = police.render(texte_2, True, BLEU)
+    fenetre.blit(image_2, (dimensions_fenetre[0]//20, dimensions_fenetre[1]//12))
+
+    texte_3 = "Energie totale : ".format(###????###) 
+    image_3 = police.render(texte_3, True, BLEU)
+    fenetre.blit(image_3, (dimensions_fenetre[0]//20, dimensions_fenetre[1]//9))
+
+    texte_4 = "potentiel_souris : ".format(potentiel_souris)
+    image_4 = police.render(texte_4, True, BLEU)
+    fenetre.blit(image_4, (dimensions_fenetre[0]//20, dimensions_fenetre[1]//7.4))
 
 # print_objets()
 # Initialisation
